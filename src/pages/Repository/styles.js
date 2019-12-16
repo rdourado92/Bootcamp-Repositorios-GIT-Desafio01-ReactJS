@@ -50,6 +50,13 @@ export const IssueList = styled.ul`
 
   li {
     display: flex;
+    padding: 15px 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+
+    & + li {
+      margin-top: 10px;
+    }
   }
 
   img {

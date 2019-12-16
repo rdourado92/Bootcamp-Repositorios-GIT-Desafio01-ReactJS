@@ -51,7 +51,7 @@ function Repository({ match }) {
             <img src={issue.user.avatar_url} alt={issue.user.login} />
             <div>
               <strong>
-                <a href={issue.url_html}>{issue.title}</a>
+                <a href={issue.html_url}>{issue.title}</a>
               </strong>
               <p>{issue.user.login}</p>
             </div>
