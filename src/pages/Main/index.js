@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
-import { Container, Form, SubmitButton } from './styles';
+
+import Container from '../../components/Container';
+import { Form, SubmitButton, List } from './styles';
 
 function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const lsRepositories = localStorage.getItem('repositories');
+
+    if (lsRepositories) {
+      setRepositories(JSON.parse(lsRepositories));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('repositories', JSON.stringify(repositories));
+  }, [repositories]);
 
   const handleInputChange = e => {
     setNewRepo(e.target.value);
@@ -49,6 +64,17 @@ function Main() {
           )}
         </SubmitButton>
       </Form>
+
+      <List>
+        {repositories.map(repository => (
+          <li key={repository.name}>
+            <span>{repository.name}</span>
+            <Link to={`/repository/${encodeURIComponent(repository.name)}`}>
+              Detalhes
+            </Link>
+          </li>
+        ))}
+      </List>
     </Container>
   );
 }
