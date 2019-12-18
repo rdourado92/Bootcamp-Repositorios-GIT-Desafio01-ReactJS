@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import Container from '../../components/Container';
 
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, IssueSpan } from './styles';
 
 function Repository({ match }) {
   const [repository, setRepository] = useState({});
@@ -52,6 +52,12 @@ function Repository({ match }) {
             <div>
               <strong>
                 <a href={issue.html_url}>{issue.title}</a>
+                {issue.labels.map(label => (
+                  <IssueSpan color={label.color} key={String(label.id)}>
+                    {label.name}
+                  </IssueSpan>
+                  // <span key={String(label.id)}>{label.name}</span>
+                ))}
               </strong>
               <p>{issue.user.login}</p>
             </div>
