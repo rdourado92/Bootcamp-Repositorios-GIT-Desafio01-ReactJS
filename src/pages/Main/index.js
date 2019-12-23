@@ -10,7 +10,9 @@ import { Form, SubmitButton, List } from './styles';
 function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const lsRepositories = localStorage.getItem('repositories');
@@ -30,15 +32,27 @@ function Main() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      setLoading(true);
+      setError(false);
 
-    const data = {
-      name: response.data.full_name,
-    };
+      const find = repositories.find(repository => repository.name === newRepo);
+      if (find) {
+        throw new Error('Repositório duplicado');
+      }
 
-    setRepositories([...repositories, data]);
-    setNewRepo('');
+      const response = await api.get(`/repos/${newRepo}`);
+      const data = {
+        name: response.data.full_name,
+      };
+
+      setRepositories([...repositories, data]);
+      setNewRepo('');
+    } catch (catchError) {
+      setErrorMessage(catchError.message);
+      setError(true);
+    }
+
     setLoading(false);
   };
   return (
@@ -48,7 +62,7 @@ function Main() {
         Repositórios
       </h1>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} error={error}>
         <input
           type="text"
           placeholder="Adicionar Repositório"
@@ -64,6 +78,7 @@ function Main() {
           )}
         </SubmitButton>
       </Form>
+      <p>{errorMessage}</p>
 
       <List>
         {repositories.map(repository => (

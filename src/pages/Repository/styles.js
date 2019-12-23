@@ -43,9 +43,8 @@ export const Owner = styled.header`
 `;
 
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
-  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-top: 10px;
   list-style: none;
 
   li {
@@ -100,4 +99,51 @@ export const IssueSpan = styled.span`
   height: 20px;
   padding: 3px 4px;
   margin-left: 10px;
+`;
+
+export const Issues = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin-top: 10px;
+      color: #7159c1;
+      background: transparent;
+      border: none;
+      &:hover {
+        color: #ccc;
+      }
+      &:disabled {
+        color: #ccc;
+        cursor: auto;
+      }
+    }
+  }
+
+  select {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background: #fff;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    width: 150px;
+  }
+
+  span > select {
+    width: 60px;
+    margin-right: 5px;
+  }
+`;
+
+export const LoadingIssues = styled.p`
+  font-size: 24px;
+  text-align: center;
 `;
